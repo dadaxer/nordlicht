@@ -1,0 +1,9 @@
+type: default-flatpaks
+configurations:
+    - notify: true
+      scope: system
+      repo:
+          title: Flathub (system)
+          name: flathub
+      uninstall:
+          - org.gnome.DejaDup
