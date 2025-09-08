@@ -10,6 +10,4 @@ repos:
 #         - gnome-tweaks
 install:
     packages:
-        - mangohud
         - netbird
-        - steam
