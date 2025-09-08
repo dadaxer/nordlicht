@@ -6,7 +6,7 @@ name: nordlicht
 description: This is my personal OS image.
 
 # the base image to build on top of (FROM) and the version tag to use
-base-image: ghcr.io/ublue-os/aurora
+base-image: ghcr.io/ublue-os/aurora-dx
 image-version: stable # latest is also supported if you want new updates ASAP
 alt-tags:
     - stable
@@ -28,8 +28,6 @@ modules:
           - source: system
             destination: / # copies files/system/* (* means everything inside it) into your image's root folder /
 
-    - from-file: modules/packages-dnf.yml
-
     - type: fonts
       fonts:
           nerd-fonts:
@@ -38,5 +36,7 @@ modules:
               - GeistMono
               - VictorMono
               - Mononoki
+
+    - from-file: modules/packages-dnf.yml
 
     - type: signing # this sets up the proper policy & signing files for signed images to work fully
