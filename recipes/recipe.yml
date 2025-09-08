@@ -38,5 +38,6 @@ modules:
               - Mononoki
 
     - from-file: modules/packages-dnf.yml
+    - from-file: modules/flatpaks.yml
 
     - type: signing # this sets up the proper policy & signing files for signed images to work fully
