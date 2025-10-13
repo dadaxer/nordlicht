@@ -9,3 +9,4 @@ configurations:
           - org.gnome.DejaDup
       install:
           - dev.zed.Zed
+          - org.gnome.World.PikaBackup
