@@ -1,13 +1,14 @@
+# yaml-language-server: $schema=https://schema.blue-build.org/recipe-v1.json
 type: dnf
 repos:
-    files:
-        - netbird.repo
-    nonfree: negativo17
-    cleanup: true
+	cleanup: true
+	files:
+    	- netbird.repo
+     nonfree: negativo17
 # remove:
 #     auto-remove: true
 #     packages:
 #         - gnome-tweaks
 install:
-    packages:
-        - netbird
+	packages:
+    	- netbird
