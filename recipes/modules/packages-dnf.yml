@@ -1,14 +1,17 @@
-# yaml-language-server: $schema=https://schema.blue-build.org/recipe-v1.json
 type: dnf
 repos:
-	cleanup: true
-	files:
-    	- netbird.repo
-     nonfree: negativo17
-# remove:
-#     auto-remove: true
-#     packages:
-#         - gnome-tweaks
+    cleanup: true
+    files:
+        - https://repository.mullvad.net/rpm/stable/mullvad.repo
+
+    # nonfree: negativo17
 install:
-	packages:
-    	- netbird
+    packages:
+        - mullvad-vpn
+          # - steam
+          # - mangohud
+remove:
+    auto-remove: true
+    packages:
+        - code
+        - gnome-tweaks
