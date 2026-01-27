@@ -28,15 +28,15 @@ modules:
           - source: system
             destination: / # copies files/system/* (* means everything inside it) into your image's root folder /
 
-    - type: fonts
-      fonts:
-          nerd-fonts:
-              - BigBlueTerminal
-              - FiraCode
-              - GeistMono
-              - JetBrainsMono
-              - VictorMono
-              - Mononoki
+    # - type: fonts
+    #   fonts:
+    #       nerd-fonts:
+    #           - BigBlueTerminal
+    #           - FiraCode
+    #           - GeistMono
+    #           - JetBrainsMono
+    #           - VictorMono
+    #           - Mononoki
 
     - from-file: modules/packages-dnf.yml
     # - from-file: modules/flatpaks.yml
