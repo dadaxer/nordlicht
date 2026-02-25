@@ -37,7 +37,7 @@ modules:
     #           - JetBrainsMono
     #           - VictorMono
     #           - Mononoki
-
+    - from-file: modules/fonts.yml
     - from-file: modules/packages-dnf.yml
     # - from-file: modules/flatpaks.yml
 
