@@ -1,4 +1,4 @@
-name: build nordlicht
+name: Build Nordlicht
 on:
     pull_request:
     repository_dispatch:
