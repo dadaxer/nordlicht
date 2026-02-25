@@ -19,8 +19,8 @@ modules:
           ID: nordlicht
           NAME: Nordlicht
           PRETTY_NAME: Nordlicht Image
-          VARIANT_ID: nordlicht-gx
-          IMAGE_ID: nordlicht-gx
+          VARIANT_ID: nordlicht-dx
+          IMAGE_ID: nordlicht-dx
           RELEASE_TYPE: stable
 
     - type: files
