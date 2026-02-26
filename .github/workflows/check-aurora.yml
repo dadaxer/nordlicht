@@ -50,7 +50,7 @@ jobs:
                   git config user.email "github-actions@github.com"
                   git add .aurora_digest
                   git commit -m "Update Aurora digest"
-                  git push || true
+                  git push
 
             - name: Trigger bluebuild workflow
               if: steps.compare.outputs.updated == 'true'
