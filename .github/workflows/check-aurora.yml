@@ -2,7 +2,7 @@ name: Check Aurora Image
 
 on:
     schedule:
-        - cron: "0 * * * *" # check every hour
+        - cron: "* 0/3 * * *" # check every hour
     workflow_dispatch:
 
 jobs:
