@@ -15,6 +15,9 @@ jobs:
             - name: Checkout repo
               uses: actions/checkout@v6
 
+            - name: Install dependencies
+              run: sudo apt-get update && sudo apt-get install -y
+
             - name: Fetch current Aurora digest
               id: digest
               run: |
@@ -47,7 +50,7 @@ jobs:
                   git config user.email "github-actions@github.com"
                   git add .aurora_digest
                   git commit -m "Update Aurora digest"
-                  git push
+                  git push || true
 
             - name: Trigger bluebuild workflow
               if: steps.compare.outputs.updated == 'true'
