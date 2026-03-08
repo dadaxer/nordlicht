@@ -4,10 +4,8 @@ repos:
     files:
         - https://repository.mullvad.net/rpm/stable/mullvad.repo
     # nonfree: negativo17
-    nonfree: terra
 install:
     packages:
-        - ghostty
         - mullvad-vpn
 remove:
     auto-remove: true
