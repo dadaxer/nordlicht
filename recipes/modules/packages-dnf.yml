@@ -3,7 +3,8 @@ repos:
     cleanup: true
     files:
         - https://repository.mullvad.net/rpm/stable/mullvad.repo
-    nonfree: negativo17
+    # nonfree: negativo17
+    nonfree: terra
 install:
     packages:
         - ghostty
