@@ -7,9 +7,6 @@ repos:
 install:
     packages:
         - mullvad-vpn
-        - plasma-discover
-        - plasma-discover-flatpak
-        - plasma-discover-rpm-ostree
 remove:
     auto-remove: true
     packages:
