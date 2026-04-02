@@ -6,7 +6,6 @@ repos:
     # nonfree: negativo17
 install:
     packages:
-        - btop
         - mullvad-vpn
 remove:
     auto-remove: true
