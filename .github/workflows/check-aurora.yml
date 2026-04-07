@@ -14,6 +14,8 @@ jobs:
         steps:
             - name: Checkout repo
               uses: actions/checkout@v6
+              with:
+                  ref: state
 
             - name: Fetch current Aurora digest
               id: digest
@@ -47,7 +49,7 @@ jobs:
                   git config user.email "github-actions@github.com"
                   git add .aurora_digest
                   git commit -m "Update Aurora digest"
-                  git push
+                  git push origin state
 
             - name: Trigger bluebuild workflow
               if: steps.compare.outputs.updated == 'true'
