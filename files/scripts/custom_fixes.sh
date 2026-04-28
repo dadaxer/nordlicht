@@ -7,7 +7,6 @@ set -oue pipefail
 
 # Your code goes here.
 rm -rf "/usr/share/backgrounds/aurora/"
-echo 'Deleted /usr/share/backgrounds/aurora/'
+rm -rf "/usr/share/icons/hicolor/scalable/places/auroralogo-pride-trans.svg"
 
 ln -sf "/usr/share/backgrounds/daxer/wallhaven-sunflower.png" "/usr/share/backgrounds/default.jxl"
-echo 'Created symlink from /usr/share/backgrounds/default.jxl to /usr/share/backgrounds/daxer/wallhaven-sunflower.png'
