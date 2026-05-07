@@ -73,7 +73,7 @@ jobs:
       - name: Fetch current Mullvad version
         id: version
         run: |
-          MULLVAD_VERSION=$(curl -s https://repository.mullvad.net/rpm/stable/x86_64/repodata/primary.xml.gz | gunzip | grep -A5 '<name>mullvad-vpn</name>' | grep '<version>' | head -1 | sed -E 's/.*<version>([0-9]+\.[0-9]+\.[0-9]+)<\/version>.*/\1/')
+          MULLVAD_VERSION=$(curl -s https://repository.mullvad.net/rpm/stable/x86_64/ | grep -oP 'MullvadVPN-[0-9]+\.[0-9]+_x86_64\.rpm' | grep -oP '[0-9]+\.[0-9]+' | head -1)
           echo "version=$MULLVAD_VERSION" >> $GITHUB_OUTPUT
 
       - name: Load last known version
