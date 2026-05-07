@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  check-aurora:
+  check-updates:
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -17,14 +17,15 @@ jobs:
         with:
           ref: state
 
+      # --- Aurora check ---
       - name: Fetch current Aurora digest
-        id: digest
+        id: aurora-digest
         run: |
           DIGEST=$(skopeo inspect docker://ghcr.io/ublue-os/aurora-dx:stable | jq -r '.Digest')
           echo "digest=$DIGEST" >> $GITHUB_OUTPUT
 
-      - name: Load last known digest
-        id: last
+      - name: Load last known Aurora digest
+        id: aurora-last
         run: |
           if [ -f .aurora_digest ]; then
             echo "last=$(cat .aurora_digest)" >> $GITHUB_OUTPUT
@@ -32,52 +33,29 @@ jobs:
             echo "last=none" >> $GITHUB_OUTPUT
           fi
 
-      - name: Compare digests
-        id: compare
+      - name: Save and trigger if Aurora updated
+        if: steps.aurora-digest.outputs.digest != steps.aurora-last.outputs.last
         run: |
-          if [ "${{ steps.digest.outputs.digest }}" != "${{ steps.last.outputs.last }}" ]; then
-            echo "updated=true" >> $GITHUB_OUTPUT
-          else
-            echo "updated=false" >> $GITHUB_OUTPUT
-          fi
-
-      - name: Save new digest
-        if: steps.compare.outputs.updated == 'true'
-        run: |
-          echo "${{ steps.digest.outputs.digest }}" > .aurora_digest
+          echo "${{ steps.aurora-digest.outputs.digest }}" > .aurora_digest
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
           git add .aurora_digest
           git commit -m "Update Aurora digest"
           git push origin state
+          curl -X POST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github.everest-preview+json" \
+            "https://api.github.com/repos/${{ github.repository }}/dispatches" \
+            -d '{"event_type":"aurora-updated"}'
 
-      - name: Trigger bluebuild workflow
-        if: steps.compare.outputs.updated == 'true'
-        uses: peter-evans/repository-dispatch@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          repository: ${{ github.repository }}
-          event-type: aurora-updated
-
-  check-mullvad:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v6
-        with:
-          ref: state
-
+      # --- Mullvad check ---
       - name: Fetch current Mullvad version
-        id: version
+        id: mullvad-version
         run: |
           MULLVAD_VERSION=$(curl -s https://repository.mullvad.net/rpm/stable/x86_64/ | grep -oP 'MullvadVPN-[0-9]+\.[0-9]+_x86_64\.rpm' | grep -oP '[0-9]+\.[0-9]+' | head -1)
           echo "version=$MULLVAD_VERSION" >> $GITHUB_OUTPUT
 
-      - name: Load last known version
-        id: last
+      - name: Load last known Mullvad version
+        id: mullvad-last
         run: |
           if [ -f .mullvad_version ]; then
             echo "last=$(cat .mullvad_version)" >> $GITHUB_OUTPUT
@@ -85,29 +63,16 @@ jobs:
             echo "last=none" >> $GITHUB_OUTPUT
           fi
 
-      - name: Compare versions
-        id: compare
+      - name: Save and trigger if Mullvad updated
+        if: steps.mullvad-version.outputs.version != steps.mullvad-last.outputs.last
         run: |
-          if [ "${{ steps.version.outputs.version }}" != "${{ steps.last.outputs.last }}" ]; then
-            echo "updated=true" >> $GITHUB_OUTPUT
-          else
-            echo "updated=false" >> $GITHUB_OUTPUT
-          fi
-
-      - name: Save new version
-        if: steps.compare.outputs.updated == 'true'
-        run: |
-          echo "${{ steps.version.outputs.version }}" > .mullvad_version
+          echo "${{ steps.mullvad-version.outputs.version }}" > .mullvad_version
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
           git add .mullvad_version
-          git commit -m "Update Mullvad version to ${{ steps.version.outputs.version }}"
+          git commit -m "Update Mullvad version to ${{ steps.mullvad-version.outputs.version }}"
           git push origin state
-
-      - name: Trigger bluebuild workflow
-        if: steps.compare.outputs.updated == 'true'
-        uses: peter-evans/repository-dispatch@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          repository: ${{ github.repository }}
-          event-type: aurora-updated
+          curl -X POST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github.everest-preview+json" \
+            "https://api.github.com/repos/${{ github.repository }}/dispatches" \
+            -d '{"event_type":"aurora-updated"}'
